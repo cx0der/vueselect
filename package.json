@@ -2,6 +2,13 @@
   "name": "vueselect",
   "version": "1.0.0",
   "private": true,
+  "author": "Shivakumar Thanikachalam",
+  "url": "https://devrandom.blog",
+  "license": "LGPL-2.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cx0der/vueselect.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
