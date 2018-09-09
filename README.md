@@ -1,4 +1,4 @@
-# vueselect
+# vueselect [![Build Status](https://travis-ci.org/cx0der/vueselect.svg?branch=master)](https://travis-ci.org/cx0der/vueselect)
 
 ## Project setup
 ```
