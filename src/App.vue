@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VueSelect />
+    <VueSelect :items="selectOptions"/>
   </div>
 </template>
 
@@ -9,6 +9,15 @@ import VueSelect from './components/VueSelect.vue'
 
 export default {
   name: 'app',
+  data () {
+    return {
+      selectOptions: [
+        'option 1',
+        'option 2',
+        'option 3'
+      ]
+    }
+  },
   components: {
     VueSelect
   }

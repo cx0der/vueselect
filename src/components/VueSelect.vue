@@ -3,12 +3,14 @@
     :class="['select__dropdown', isOpen ? 'select__dropdown--open' : 'select__dropdown--close']"
     @click="toggle"
     tabindex="0">
-    <span class="select__value">VueSelect</span>
+    <span class="select__value">{{ value }}</span>
     <ul
       :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']">
-      <li class="select__option">Option 1</li>
-      <li class="select__option">Option 2</li>
-      <li class="select__option">Option 3</li>
+      <li
+        v-for="(opt, idx) in items"
+        :key="idx"
+        class="select__option"
+        @click="select(idx)">{{ opt }}</li>
     </ul>
   </div>
 </template>
@@ -16,14 +18,26 @@
 <script>
 export default {
   name: 'VueSelect',
+  props: {
+    items: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      isOpen: true
+      isOpen: true,
+      value: ''
     }
   },
   methods: {
     toggle () {
       this.isOpen = !this.isOpen
+    },
+    select (idx) {
+      this.value = this.items[idx]
     }
   }
 }
