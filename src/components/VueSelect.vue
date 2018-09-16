@@ -3,7 +3,7 @@
     :class="['select__dropdown', isOpen ? 'select__dropdown--open' : 'select__dropdown--close']"
     @click="toggle"
     tabindex="0">
-    <span class="select__value">{{ value }}</span>
+    <span class="select__value">{{ mutableValue }}</span>
     <ul
       :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']">
       <li
@@ -24,12 +24,16 @@ export default {
       default () {
         return []
       }
+    },
+    value: {
+      type: String,
+      default: null
     }
   },
   data () {
     return {
       isOpen: true,
-      value: ''
+      mutableValue: null
     }
   },
   methods: {
@@ -37,8 +41,20 @@ export default {
       this.isOpen = !this.isOpen
     },
     select (idx) {
-      this.value = this.items[idx]
+      this.mutableValue = this.items[idx]
+      this.$emit('input', this.mutableValue)
+      this.$emit('update:value', this.mutableValue)
     }
+  },
+  watch: {
+    value (val) {
+      // when the parent changes the value, update the internal state
+      this.mutableValue = val
+    }
+  },
+  created () {
+    // initialize the mutable value to what is sent from the parent
+    this.mutableValue = this.value
   }
 }
 </script>

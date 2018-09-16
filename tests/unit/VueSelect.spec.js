@@ -1,16 +1,22 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import VueSelect from '@/components/VueSelect.vue'
+
 /* eslint-disable no-unused-expressions */
 describe('VueSelect.vue', () => {
-  const wrapper = shallowMount(VueSelect, {
-    propsData: {
-      items: [
-        'Option 1',
-        'Option 2',
-        'Option 3'
-      ]
-    }
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = shallowMount(VueSelect, {
+      propsData: {
+        items: [
+          'Option 1',
+          'Option 2',
+          'Option 3'
+        ],
+        value: 'Option 2'
+      }
+    })
   })
 
   it('renders the basic structure correctly', () => {
@@ -23,6 +29,17 @@ describe('VueSelect.vue', () => {
   })
   it('sets the value of the selected option', () => {
     wrapper.find('.select__option').trigger('click')
-    expect(wrapper.vm.value).to.be.equal('Option 1')
+    expect(wrapper.vm.mutableValue).to.be.equal('Option 1')
+  })
+  it('emits input event when an option is selected', () => {
+    wrapper.find('.select__option').trigger('click')
+    expect(wrapper.emitted().input[0][0]).to.be.equal('Option 1')
+  })
+  it('emits update event when an option is selected', () => {
+    wrapper.find('.select__option').trigger('click')
+    expect(wrapper.emitted()['update:value'][0][0]).to.be.equal('Option 1')
+  })
+  it('selects the correct option when value property is set', () => {
+    expect(wrapper.vm.mutableValue).to.be.equal('Option 2')
   })
 })
