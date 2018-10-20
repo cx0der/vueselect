@@ -23,7 +23,7 @@ export default {
         'option 2',
         'option 3'
       ],
-      val: 'Option 2'
+      val: 'option 2'
     }
   },
   components: {
@@ -47,6 +47,7 @@ export default {
   margin-top: 60px;
 }
 .comp__container {
+  // background-color: #f00;
   width: 200px;
 }
 </style>

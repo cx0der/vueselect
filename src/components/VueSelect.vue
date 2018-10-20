@@ -5,11 +5,13 @@
     tabindex="0">
     <span class="select__value">{{ mutableValue }}</span>
     <ul
-      :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']">
+      :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']"
+      role="listbox">
       <li
         v-for="(opt, idx) in items"
+        :class="['select__option', isItemSelected(idx) ? 'select__option--selected': '']"
         :key="idx"
-        class="select__option"
+        role="option"
         @click="select(idx)">{{ opt }}</li>
     </ul>
   </div>
@@ -33,7 +35,8 @@ export default {
   data () {
     return {
       isOpen: true,
-      mutableValue: null
+      mutableValue: null,
+      selectedIdx: -1
     }
   },
   methods: {
@@ -42,103 +45,120 @@ export default {
     },
     select (idx) {
       this.mutableValue = this.items[idx]
+      this.selectedIdx = idx
       this.$emit('input', this.mutableValue)
       this.$emit('update:value', this.mutableValue)
+    },
+    isItemSelected (idx) {
+      return this.selectedIdx === idx
     }
   },
   watch: {
     value (val) {
       // when the parent changes the value, update the internal state
       this.mutableValue = val
+      this.selectedIdx = this.items.indexOf(val)
     }
   },
   created () {
     // initialize the mutable value to what is sent from the parent
     this.mutableValue = this.value
+    this.selectedIdx = this.items.indexOf(this.value)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-$chevron-size: 5px;
+$background-color: #fff;
+$border-color: #606060;
+$border-radius: 5px;
+$item-hover-color: #f5f5f5;
+$item-selected-color: rgba(0, 0, 0, .25);
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .select__dropdown {
-  border: 1px solid #000;
-  border-radius: .4em .4em 0 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Verdana, Arial, sans-serif;
-  font-size: 1rem;
-  padding: 0;
+  font-size: 16px;
+  outline: none;
   position: relative;
-  width: 100%;
-  &:active, &:focus {
-    outline: none;
-  }
+  text-align: left;
+}
+.select__dropdown--close {
   &::after {
-    border-color: #000;
-    border-style: solid;
-    border-width: 0 3px 3px 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $border-color;
     content: '';
-    height: $chevron-size;
+    height: 0;
     position: absolute;
-    right: 10px;
-    top: 35%;
-    width: $chevron-size;
+    right: 8px;
+    top: 20px;
+    width: 0;
   }
 }
 .select__dropdown--open {
   &::after {
-    transform: rotate(45deg);
-  }
-}
-.select__dropdown--close {
-  &::after {
-    transform: rotate(225deg);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid $border-color;
+    content: '';
+    height: 0;
+    position: absolute;
+    right: 8px;
+    top: 20px;
+    width: 0;
   }
 }
 .select__value {
-  display: inline-block;
-  margin: 0;
-  overflow: hidden;
-  padding: 8px 16px;
-  text-align: left;
-  text-overflow: ellipsis;
-  user-select: none;
-  vertical-align: middle;
-  width: 100%;
-  white-space: nowrap;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  display: block;
+  height: 48px;
+  padding: 16px;
 }
 .select__optionlist {
-  border: 1px solid #000;
-  border-radius: 0 0 .4em .4em;
-  box-sizing : border-box;
-  left: 0;
+  background-color: $background-color;
+  border: 1px solid $border-color;
+  border-radius: 0 0 $border-radius $border-radius;
   list-style: none;
   margin: 0;
-  max-height: 10em;
-  min-width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  max-height: 150px;
   padding: 0;
-  position: absolute;
-  text-align: left;
-  top: 100%;
-  z-index: 2;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  position: relative;
+  top: -3px;
+  z-index: 2000;
 }
 .select__optionlist--close {
-  max-height: 0;
   visibility: hidden;
 }
 .select__option {
-  padding-bottom: 4px;
-  padding-left: 16px;
-  padding-top: 4px;
-  user-select: none;
+  height: 32px;
+  line-height: 2;
+  padding: 0 16px;
+  text-align: left;
+  vertical-align: middle;
   &:hover {
-    background: #000;
-    color: #fff;
+    background-color: $item-hover-color;
+  }
+}
+.select__option--selected {
+  background-color: $item-selected-color;
+  &:hover {
+    background-color: $item-selected-color;
   }
 }
 </style>
