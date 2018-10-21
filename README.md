@@ -8,7 +8,7 @@
 
 ## Install
 ```
-npm install vueselect
+npm install @cx0der/vueselect
 ```
 
 #### Using

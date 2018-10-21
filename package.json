@@ -1,10 +1,10 @@
 {
-  "name": "vueselect",
+  "name": "@cx0der/vueselect",
   "version": "1.0.0",
-  "private": true,
   "author": "Shivakumar Thanikachalam",
-  "url": "https://devrandom.blog",
-  "license": "LGPL-2.0-only",
+  "url": "https://github.com/cx0der/vueselect",
+  "license": "GPL-2.0-only",
+  "main": "dist/vueselect.common.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/cx0der/vueselect.git"
@@ -14,8 +14,12 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service test:unit --watch",
-    "test-ci": "vue-cli-service test:unit"
+    "test-ci": "vue-cli-service test:unit",
+    "build-lib": "vue-cli-service build --target lib --name vueselect src/components/VueSelect.vue"
   },
+  "files": [
+    "dist/*."
+  ],
   "dependencies": {
     "vue": "^2.5.17"
   },
