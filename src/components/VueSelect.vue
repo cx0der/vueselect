@@ -1,14 +1,27 @@
 <template>
   <div
+    :aria-expanded="[isOpen ? 'true' : 'false']"
+    :aria-owns="'lbox_' + _uid"
     :class="['select__dropdown', isOpen ? 'select__dropdown--open' : 'select__dropdown--close']"
     @click="toggle"
-    tabindex="0">
-    <span class="select__value">{{ mutableValue }}</span>
+    @keyup.space="toggle"
+    @keyup.up="moveUp"
+    @keyup.down="moveDown"
+    @keyup.enter="selectFromKeyboard"
+    aria-autocomplete="none"
+    role="combobox"
+    tabindex="-1">
+    <span
+      @blur="handleBlur"
+      class="select__value"
+      tabindex="0">{{ mutableValue }}</span>
     <ul
+      :id="'lbox_' + _uid"
       :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']"
       role="listbox">
       <li
         v-for="(opt, idx) in items"
+        :aria-selected="[isItemSelected(idx) ? 'true' : 'false']"
         :class="['select__option', isItemSelected(idx) ? 'select__option--selected': '']"
         :key="idx"
         role="option"
@@ -34,14 +47,16 @@ export default {
   },
   data () {
     return {
-      isOpen: true,
+      isOpen: false,
       mutableValue: null,
-      selectedIdx: -1
+      selectedIdx: -1,
+      hoverIndex: -1
     }
   },
   methods: {
     toggle () {
       this.isOpen = !this.isOpen
+      this.hoverIndex = this.selectedIdx
     },
     select (idx) {
       this.mutableValue = this.items[idx]
@@ -51,6 +66,21 @@ export default {
     },
     isItemSelected (idx) {
       return this.selectedIdx === idx
+    },
+    moveUp () {
+      this.hoverIndex = this.hoverIndex === 0 ? (this.items.length - 1) : (this.hoverIndex - 1)
+    },
+    moveDown () {
+      this.hoverIndex = ((this.hoverIndex + 1) % this.items.length)
+    },
+    selectFromKeyboard () {
+      this.select(this.hoverIndex)
+      this.toggle()
+    },
+    handleBlur () {
+      if (this.isOpen) {
+        this.toggle()
+      }
     }
   },
   watch: {
@@ -70,7 +100,8 @@ export default {
 
 <style lang="scss" scoped>
 $background-color: #fff;
-$border-color: #606060;
+$border-color: #101010;
+$border-inactive-color: #606060;
 $border-radius: 5px;
 $item-hover-color: #f5f5f5;
 $item-selected-color: rgba(0, 0, 0, .25);
@@ -88,7 +119,6 @@ $item-selected-color: rgba(0, 0, 0, .25);
   -ms-user-select: none;
   user-select: none;
 }
-
 .select__dropdown {
   font-size: 16px;
   outline: none;
@@ -122,11 +152,15 @@ $item-selected-color: rgba(0, 0, 0, .25);
   }
 }
 .select__value {
-  border: 1px solid $border-color;
+  border: 1px solid $border-inactive-color;
   border-radius: $border-radius;
   display: block;
   height: 48px;
+  outline: none;
   padding: 16px;
+  &:focus {
+    border-color: $border-color;
+  }
 }
 .select__optionlist {
   background-color: $background-color;

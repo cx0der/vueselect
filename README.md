@@ -1,26 +1,36 @@
 # vueselect [![Build Status](https://travis-ci.org/cx0der/vueselect.svg?branch=master)](https://travis-ci.org/cx0der/vueselect)
 
-## Project setup
+> Native accessible Vue.js component similar to &lt;select&gt;
+
+#### Features
+* Accessible
+* Zero dependencies
+
+## Install
 ```
-npm install
+npm install vueselect
 ```
 
-### Compiles and hot-reloads for development
+#### Using
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+import VueSelect from 'VueSelect'
+<VueSelect :items="['Option1', 'Option2']"></VueSelect>
 ```
 
-### Lints and fixes files
+#### Syncing selected values
 ```
-npm run lint
+<VueSelect :items="selectOptions" :value.sync="val"/>
 ```
 
-### Run your unit tests
+## Properties
+* items
 ```
-npm run test
+An Array of strings
 ```
+* value
+```
+Preset set value
+```
+
+## LICENSE
+[GPL 2](https://github.com/cx0der/vueselect/blob/master/LICENSE)

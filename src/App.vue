@@ -39,15 +39,15 @@ export default {
 
 <style lang="scss">
 #app {
+  color: #2c3e50;
+  display: flex;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  justify-content: space-around;
+  margin-top: 60px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 .comp__container {
-  // background-color: #f00;
   width: 200px;
 }
 </style>
