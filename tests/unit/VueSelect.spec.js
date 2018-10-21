@@ -25,6 +25,7 @@ describe('VueSelect.vue', () => {
   })
   it('closes the dropdown when clicked', () => {
     wrapper.find('.select__dropdown').trigger('click')
+    wrapper.find('.select__dropdown').trigger('click')
     expect(wrapper.contains('.select__dropdown--open')).to.be.false
   })
   it('sets the value of the selected option', () => {
