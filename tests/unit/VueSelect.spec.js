@@ -23,10 +23,9 @@ describe('VueSelect.vue', () => {
     expect(wrapper.find('.select__dropdown')).to.be.not.null
     expect(wrapper.findAll('.select__option').length).to.be.equal(3)
   })
-  it('closes the dropdown when clicked', () => {
+  it('opens the dropdown when clicked', () => {
     wrapper.find('.select__dropdown').trigger('click')
-    wrapper.find('.select__dropdown').trigger('click')
-    expect(wrapper.contains('.select__dropdown--open')).to.be.false
+    expect(wrapper.contains('.select__dropdown--open')).to.be.true
   })
   it('sets the value of the selected option', () => {
     wrapper.find('.select__option').trigger('click')

@@ -12,7 +12,6 @@
     role="combobox"
     tabindex="-1">
     <span
-      @blur="handleBlur"
       class="select__value"
       tabindex="0">{{ mutableValue }}</span>
     <ul
