@@ -185,9 +185,6 @@ $item-selected-color: rgba(0, 0, 0, .25);
   padding: 0 16px;
   text-align: left;
   vertical-align: middle;
-  // &:hover {
-  //   background-color: $item-hover-color;
-  // }
 }
 .select__optionlist--hover, .select__option:hover {
   background-color: $item-hover-color;
