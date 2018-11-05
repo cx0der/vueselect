@@ -3,6 +3,7 @@
     :aria-expanded="[isOpen ? 'true' : 'false']"
     :aria-owns="'lbox_' + _uid"
     :class="['select__dropdown', isOpen ? 'select__dropdown--open' : 'select__dropdown--close']"
+    @blur="handleBlur"
     @click="toggle"
     @keyup.space="toggle"
     @keyup.up="moveUp"
@@ -10,10 +11,9 @@
     @keyup.enter="selectFromKeyboard"
     aria-autocomplete="none"
     role="combobox"
-    tabindex="-1">
+    tabindex="0">
     <span
-      class="select__value"
-      tabindex="0">{{ mutableValue }}</span>
+      class="select__value">{{ mutableValue }}</span>
     <ul
       :id="'lbox_' + _uid"
       :class="['select__optionlist', isOpen ? '' : 'select__optionlist--close']"
@@ -21,7 +21,8 @@
       <li
         v-for="(opt, idx) in items"
         :aria-selected="[isItemSelected(idx) ? 'true' : 'false']"
-        :class="['select__option', isItemSelected(idx) ? 'select__option--selected': '']"
+        :class="['select__option', isItemSelected(idx) ? 'select__option--selected': '',
+          hoverIndex === idx ? 'select__optionlist--hover': '']"
         :key="idx"
         role="option"
         @click="select(idx)">{{ opt }}</li>
@@ -184,9 +185,12 @@ $item-selected-color: rgba(0, 0, 0, .25);
   padding: 0 16px;
   text-align: left;
   vertical-align: middle;
-  &:hover {
-    background-color: $item-hover-color;
-  }
+  // &:hover {
+  //   background-color: $item-hover-color;
+  // }
+}
+.select__optionlist--hover, .select__option:hover {
+  background-color: $item-hover-color;
 }
 .select__option--selected {
   background-color: $item-selected-color;

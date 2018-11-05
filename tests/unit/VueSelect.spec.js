@@ -42,4 +42,10 @@ describe('VueSelect.vue', () => {
   it('selects the correct option when value property is set', () => {
     expect(wrapper.vm.mutableValue).to.be.equal('Option 2')
   })
+  it('highlights the option when using keyboard navigation', () => {
+    wrapper.find('.select__option').trigger('click')
+    wrapper.find('.select__option').trigger('down')
+    expect(wrapper.find('.select__optionlist--hover')).to.be.not.null
+    expect(wrapper.findAll('.select__optionlist--hover').length).to.be.equal(1)
+  })
 })
